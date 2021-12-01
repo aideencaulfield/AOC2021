@@ -1,4 +1,5 @@
 import time
+import numpy as np
 
 
 def parse(file_loc):
@@ -15,26 +16,38 @@ def parse(file_loc):
     return floor_depth
 
 
-def depth_increase(floor_depth):
+def depth_increase(sliding_depths):
     """
     checks if the depth has increased and counts how many times it does so
-    :param floor_depth: a list of depths recorded
-    :return: count: int representing how many times the depth increased
+    :param sliding_depths: a list of the summed sliding depths
+    :return: count - int representing how many times the depth increased
     """
 
     depth_count = 0
-    for i in range(1, len(floor_depth)):
-        if floor_depth[i] > floor_depth[i - 1]:
+    for i in range(1, len(sliding_depths)):
+        if sliding_depths[i] > sliding_depths[i - 1]:
             depth_count = depth_count + 1
 
     return depth_count
 
 
+def sliding_window(floor_depth):
+    """
+    Computes the floor depth for the sliding window using convolve
+    :param floor_depth: list of all the recorded depths
+    :return: sliding_depths - list of the summed sliding depths
+    """
+    sliding_depths = np.convolve(floor_depth, np.ones(3, dtype=int), 'valid')
+
+    return sliding_depths
+
+
 def main(file):
     floor_depth = parse(file)
-    depth_count = depth_increase(floor_depth)
+    sliding_depth = sliding_window(floor_depth)
+    increase_count = depth_increase(sliding_depth)
 
-    return depth_count
+    return increase_count
 
 
 if __name__ == '__main__':
