@@ -18,22 +18,26 @@ def parse(file_loc):
 
 def depth_increase(floor_depth):
     count = 0
-    for i in range(1,len(floor_depth)):
-        if floor_depth[i] > floor_depth[i-1]:
+    for i in range(1, len(floor_depth)):
+        if floor_depth[i] > floor_depth[i - 1]:
             count = count + 1
-    print(f'The depth increases {count} times')
 
-    return None
+    return count
 
 
 def main(file):
     floor_depth = parse(file)
-    depth_increase(floor_depth)
+    count = depth_increase(floor_depth)
 
+    return count
 
 
 if __name__ == '__main__':
     start_time = time.time()
     file_loc = 'Day1_input.txt'
 
-    main(file_loc)
+    count = main(file_loc)
+    print(f'The depth increases {count} times')
+
+    end_time = time.time()
+    print(f'Time taken:{end_time - start_time}')
