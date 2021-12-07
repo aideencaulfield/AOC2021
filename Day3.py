@@ -1,5 +1,4 @@
 import time
-from collections import Counter
 
 
 def parse(file_loc):
